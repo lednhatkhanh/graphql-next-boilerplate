@@ -5,10 +5,13 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { CacheProvider } from '@emotion/react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import createCache from '@emotion/cache';
+import { ApolloProvider } from '@apollo/client';
 
-import { theme } from 'src/lib';
+import { createApolloClient, theme } from 'src/lib';
 
 export const cache = createCache({ key: 'css' });
+
+const apolloClient = createApolloClient();
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
@@ -24,13 +27,15 @@ export default function MyApp(props: AppProps) {
   return (
     <CacheProvider value={cache}>
       <Head>
-        <title>Re Learn</title>
+        <title>Graphql Next</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Component {...pageProps} />
+        <ApolloProvider client={apolloClient}>
+          <Component {...pageProps} />
+        </ApolloProvider>
       </ThemeProvider>
     </CacheProvider>
   );

@@ -1,0 +1,28 @@
+overwrite: true
+schema: ${NEXT_PUBLIC_GRAPHQL_ENDPOINT}
+documents: "src/**/*.graphql"
+generates:
+  src/graphql/helpers.ts:
+    plugins:
+      - typescript-apollo-client-helpers
+  src/graphql/index.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      scalars:
+        DateTime: Date
+      useTypeImports: true
+      reactApolloVersion: 3
+      withHooks: true
+      withHOC: false
+      withComponent: false
+      exportFragmentSpreadSubTypes: true
+      documentMode: graphQLTag
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"
+hooks:
+  afterAllFileWrite:
+    - prettier --write
